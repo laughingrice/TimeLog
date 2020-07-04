@@ -3,10 +3,9 @@ import pathlib
 
 
 class TimeManager:
-    def __init__(self):
-        path = (pathlib.Path().home() / pathlib.Path(".local/share/TimeManager"))
-        path.mkdir(parents=True, exist_ok=True)
-        self.conn = sq.connect(str(path / "times.sqlite"), detect_types=sq.PARSE_DECLTYPES | sq.PARSE_COLNAMES)
+    def __init__(self, appPath):
+        dbfile = appPath / pathlib.Path("times.sqlite")
+        self.conn = sq.connect(str(dbfile), detect_types=sq.PARSE_DECLTYPES | sq.PARSE_COLNAMES)
         self.curr = self.conn.cursor()
 
         # Clients table
