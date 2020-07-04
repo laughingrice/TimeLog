@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QTime, QTimer
 
 from datetime import datetime
-
+import os
 
 class TrayProg(QSystemTrayIcon):
     def __init__(self, time_manager):
@@ -17,7 +17,9 @@ class TrayProg(QSystemTrayIcon):
         self.timer = QTimer()
         self.timer.timeout.connect(self.TimerTick)
 
-        self.setIcon(QIcon("icon.png"))
+        icon_path = os.path.dirname(os.path.abspath(__file__))
+        icon_fname = os.path.join(icon_path, "icon.png")
+        self.setIcon(QIcon(icon_fname))
 
         self.top_menu = QMenu()
         self.create_menu()
