@@ -2,8 +2,6 @@
 TODO: Remember last project for each client
 TODO: remember last client
 TODO: alphabetically/by date last used sort client / project list?
-TODO: search icon in app directory
-TODO: package app in zip?
 TODO: export report by month
 TODO: Switch to CSV fiile
 """
@@ -29,6 +27,6 @@ app.setQuitOnLastWindowClosed(False)
 app.setWindowIcon(QIcon(":/icons/icon.png"))
 
 time_manager = TimeManager(appPath)
-trayprog = TrayProg(time_manager)
+trayprog = TrayProg(appPath, time_manager)
 
 app.exec()
