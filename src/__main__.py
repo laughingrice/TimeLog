@@ -12,18 +12,16 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QIcon
 
 import sys
-import os
 
 from tray import TrayProg
 from time_manager import TimeManager
+import resource
 
 
 app = QApplication(sys.argv)
 app.setQuitOnLastWindowClosed(False)
 
-icon_path = os.path.dirname(os.path.abspath(__file__))
-icon_fname = os.path.join(icon_path, "icon.png")
-app.setWindowIcon(QIcon(icon_fname))
+app.setWindowIcon(QIcon(":/icons/icon.png"))
 
 time_manager = TimeManager()
 trayprog = TrayProg(time_manager)
