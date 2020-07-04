@@ -1,7 +1,4 @@
 """
-TODO: Remember last project for each client
-TODO: remember last client
-TODO: alphabetically/by date last used sort client / project list?
 TODO: export report by month
 TODO: Switch to CSV fiile
 """
