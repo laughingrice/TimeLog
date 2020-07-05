@@ -2,23 +2,17 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QIcon
 
 import sys
-import pathlib
 
 from tray import TrayProg
 from time_manager import TimeManager
 import resource
-
-
-# Create the app director
-appPath = (pathlib.Path().home() / pathlib.Path(".local/share/TimeLog"))
-appPath.mkdir(parents=True, exist_ok=True)
 
 app = QApplication(sys.argv)
 app.setQuitOnLastWindowClosed(False)
 
 app.setWindowIcon(QIcon(":/icons/icon.png"))
 
-time_manager = TimeManager(appPath)
-trayprog = TrayProg(appPath, time_manager)
+time_manager = TimeManager()
+trayprog = TrayProg(time_manager)
 
 app.exec()

@@ -1,10 +1,13 @@
 import yaml
 import os
 
+from config import app_path
+
+
 class TimeManager:
-    def __init__(self, appPath):
-        self.projects_file = str(appPath / 'projects.yaml')
-        self.time_file = str(appPath / 'times.csv')
+    def __init__(self):
+        self.projects_file = str(app_path / 'projects.yaml')
+        self.time_file = str(app_path / 'times.csv')
 
         if os.path.exists(self.projects_file):
             with open(self.projects_file, 'rt') as f:

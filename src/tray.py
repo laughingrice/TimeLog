@@ -6,10 +6,11 @@ from datetime import datetime
 import yaml
 import os
 
+from config import app_path
 import resource
 
 class TrayProg(QSystemTrayIcon):
-    def __init__(self, apppath, time_manager):
+    def __init__(self, time_manager):
         super().__init__()
 
         self.time_manager = time_manager
@@ -20,7 +21,7 @@ class TrayProg(QSystemTrayIcon):
         self.timer = QTimer()
         self.timer.timeout.connect(self.TimerTick)
 
-        self.history_file = str(apppath / "history.yaml")
+        self.history_file = str(app_path / "history.yaml")
         if os.path.exists(self.history_file):
             with open(self.history_file, 'r') as f:
                 self.history = yaml.safe_load(f)
