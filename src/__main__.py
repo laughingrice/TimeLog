@@ -1,8 +1,3 @@
-"""
-TODO: export report by month
-TODO: Switch to CSV fiile
-"""
-
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QIcon
 
