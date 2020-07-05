@@ -28,7 +28,7 @@ class TimeManager:
             self.projects[name] = []
 
             with open(self.projects_file, 'wt') as f:
-                self.projects = yaml.safe_dump(self.projects, f)
+                yaml.safe_dump(self.projects, f)
 
     def get_client_projects(self, client):
         if client in self.projects:
@@ -43,7 +43,7 @@ class TimeManager:
             self.projects[client].append(name)
 
         with open(self.projects_file, 'wt') as f:
-            self.projects = yaml.safe_dump(self.projects, f)
+            yaml.safe_dump(self.projects, f)
 
     def add_time_entry(self, client, project, start_time, end_time, duration):
         with open(self.time_file, 'at') as f:
