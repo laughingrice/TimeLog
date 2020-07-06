@@ -6,3 +6,15 @@ Stores time logs in a csv file in ~/.local/share/TimeLog (configurable via confi
 
 Tested on OsX, should work the same on linux, probably Windows, although storage path may need to be reconfigured.
 
+## Changelog
+
+### V0.1
+
+* Initial release
+
+## TODO:
+
+* Switch to module / App setup
+* Add distutil/setup.py
+* Configurable program directory
+* Package as mac app
