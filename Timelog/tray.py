@@ -18,6 +18,7 @@ class TrayProg(QSystemTrayIcon):
         self.active_client = None
         self.active_project = None
         self.start_time = None
+        self.note = ''
         self.timer = QTimer()
         self.timer.timeout.connect(self.__timer_tick)
 
@@ -34,6 +35,7 @@ class TrayProg(QSystemTrayIcon):
 
         self.top_menu = QMenu()
         self.top_menu_start_stop = QAction("Start")
+        self.top_menu_note = QAction("Note: ''")
         self.top_menu_time = QAction("Time: 00:00:00")
         self.top_menu_project = QAction("none : none")
         self.clients_menu = QMenu("Clients")
@@ -52,25 +54,10 @@ class TrayProg(QSystemTrayIcon):
 
     def __configure_menu(self):
         self.top_menu_start_stop.triggered.connect(self.start_stop)
-        self.top_menu.addAction(self.top_menu_start_stop)
-        self.top_menu.addAction(self.top_menu_project)
-        self.top_menu.addAction(self.top_menu_time)
-
-        self.top_menu.addSeparator()
-
-        self.top_menu.addMenu(self.clients_menu)
-        self.clients_menu.addAction(self.clients_menu_new)
         self.clients_menu_new.triggered.connect(self.new_client)
-        self.clients_menu.addSeparator()
-
-        self.top_menu.addMenu(self.projects_menu)
         self.projects_menu_new.triggered.connect(self.new_project)
-        self.projects_menu.addAction(self.projects_menu_new)
-        self.projects_menu.addSeparator()
-
-        self.top_menu.addSeparator()
+        self.top_menu_note.triggered.connect(self.set_note)
         self.top_menu_quit.triggered.connect(qApp.quit)
-        self.top_menu.addAction(self.top_menu_quit)
 
         client_list = self.time_manager.get_clients()
 
@@ -79,9 +66,6 @@ class TrayProg(QSystemTrayIcon):
                 self.active_client = self.history['last_client']
             else:
                 self.active_client = client_list[0]
-                self.history['last_client'] = self.active_client
-                with open(self.history_file, 'w') as f:
-                    yaml.safe_dump(self.history, f)
 
             for client in client_list:
                 c = QAction(client)
@@ -92,9 +76,29 @@ class TrayProg(QSystemTrayIcon):
                 if self.active_client == client:
                     c.trigger()
 
-                project_list = self.time_manager.get_client_projects(client_list[0])
-
         self.top_menu_project.setText(f'{self.active_client} -- {self.active_project}')
+
+        self.top_menu.addAction(self.top_menu_start_stop)
+        self.top_menu.addAction(self.top_menu_project)
+        self.top_menu.addAction(self.top_menu_time)
+
+        self.top_menu.addSeparator()
+
+        self.top_menu.addMenu(self.clients_menu)
+        self.clients_menu.addAction(self.clients_menu_new)
+        self.clients_menu.addSeparator()
+
+        self.top_menu.addMenu(self.projects_menu)
+        self.projects_menu.addAction(self.projects_menu_new)
+        self.projects_menu.addSeparator()
+
+        self.top_menu.addAction(self.top_menu_note)
+
+        self.top_menu.addSeparator()
+        self.top_menu.addAction(self.top_menu_quit)
+
+        self.top_menu_project.setDisabled(True)
+        self.top_menu_time.setDisabled(True)
 
     def new_client(self):
         if self.running:
@@ -122,6 +126,8 @@ class TrayProg(QSystemTrayIcon):
         self.active_client = client
         self.active_project = None
 
+        self.history['last_client'] = self.active_client
+
         project_list = self.time_manager.get_client_projects(client)
         self.project_menu_projects = []
         if len(project_list):
@@ -129,6 +135,7 @@ class TrayProg(QSystemTrayIcon):
                 self.active_project = self.history['last_projects'][client]
             else:
                 self.active_project = project_list[0]
+                self.history['last_projects'][client] = self.active_project
 
             for project in project_list:
                 p = QAction(project)
@@ -136,8 +143,6 @@ class TrayProg(QSystemTrayIcon):
                 p.triggered.connect(self.set_project)
                 self.projects_menu.addAction(p)
 
-        self.history['last_client'] = self.active_client
-        self.history['last_projects'][self.active_client] = self.active_project
         with open(self.history_file, 'w') as f:
             yaml.safe_dump(self.history, f)
 
@@ -170,6 +175,9 @@ class TrayProg(QSystemTrayIcon):
         with open(self.history_file, 'w') as f:
             yaml.safe_dump(self.history, f)
 
+        self.note = ''
+        self.top_menu_note.setText(f"Note: ''")
+
         self.top_menu_project.setText(f'{self.active_client} -- {self.active_project}')
 
     def start_stop(self):
@@ -184,9 +192,22 @@ class TrayProg(QSystemTrayIcon):
             self.timer.stop()
             duration = end_time - self.start_time
 
-            self.time_manager.add_time_entry(self.active_client, self.active_project, self.start_time, end_time, duration.total_seconds())
+            self.time_manager.add_time_entry(
+                self.active_client,
+                self.active_project,
+                self.start_time, end_time,
+                duration.total_seconds(),
+                self.note)
 
             self.start_time = None
+
+    def set_note(self):
+        note, res = QInputDialog.getText(None, "Note", "Note:")
+        if not res:
+            return
+
+        self.note = note
+        self.top_menu_note.setText(f"Note: '{self.note}'")
 
     def __timer_tick(self):
         duration = datetime.now() - self.start_time

@@ -18,7 +18,7 @@ class TimeManager:
         # Create csv column headers
         if not os.path.exists(self.time_file):
             with open(self.time_file, 'wt') as f:
-                f.write('Client,Project,Start,End,Duration\n')
+                f.write('Client,Project,Start,End,Duration,Note\n')
 
     def get_clients(self):
         return list(self.projects.keys())
@@ -45,6 +45,6 @@ class TimeManager:
         with open(self.projects_file, 'wt') as f:
             yaml.safe_dump(self.projects, f)
 
-    def add_time_entry(self, client, project, start_time, end_time, duration):
+    def add_time_entry(self, client, project, start_time, end_time, duration, note):
         with open(self.time_file, 'at') as f:
-            f.write(f'{client},{project},{start_time},{end_time},{duration}\n')
+            f.write(f'{client},{project},{start_time},{end_time},{duration},{note}\n')
