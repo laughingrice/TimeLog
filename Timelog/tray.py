@@ -75,7 +75,7 @@ class TrayProg(QSystemTrayIcon):
         client_list = self.time_manager.get_clients()
 
         if len(client_list):
-            if self.history['last_client'] is not None and self.history['last_client'] in client_list:
+            if self.history['last_client'] in client_list:
                 self.active_client = self.history['last_client']
             else:
                 self.active_client = client_list[0]
@@ -89,21 +89,10 @@ class TrayProg(QSystemTrayIcon):
                 c.triggered.connect(self.set_client)
                 self.clients_menu.addAction(c)
 
-                project_list = self.time_manager.get_client_projects(client_list[0])
-                if len(project_list):
-                    if self.active_client in self.history['last_projects'] and self.history['last_projects'][self.active_client] in project_list:
-                        self.active_project = self.history['last_projects'][self.active_client]
-                    else:
-                        self.active_project = project_list[0]
-                        self.history['last_projects'][self.active_client] = self.active_project
-                        with open(self.history_file, 'w') as f:
-                            yaml.safe_dump(self.history, f)
+                if self.active_client == client:
+                    c.trigger()
 
-                    for project in project_list:
-                        p = QAction(project)
-                        self.project_menu_projects.append(p)
-                        p.triggered.connect(self.set_project)
-                        self.projects_menu.addAction(p)
+                project_list = self.time_manager.get_client_projects(client_list[0])
 
         self.top_menu_project.setText(f'{self.active_client} -- {self.active_project}')
 
@@ -119,15 +108,7 @@ class TrayProg(QSystemTrayIcon):
         c.triggered.connect(self.set_client)
         self.clients_menu.addAction(c)
 
-        self.active_client = client
-        self.active_project = None
-
-        self.history['last_client'] = self.active_client
-        self.history['last_projects'][self.active_client] = self.active_project
-        with open(self.history_file, 'w') as f:
-            yaml.safe_dump(self.history, f)
-
-        self.top_menu_project.setText(f'{self.active_client} -- {self.active_project}')
+        c.trigger()
 
     def set_client(self):
         client = self.sender().text()
@@ -168,15 +149,9 @@ class TrayProg(QSystemTrayIcon):
         p.triggered.connect(self.set_project)
         self.projects_menu.addAction(p)
 
-        self.active_project = project
+        p.trigger()
 
-        self.history['last_projects'][self.active_client] = self.active_project
-        with open(self.history_file, 'w') as f:
-            yaml.safe_dump(self.history, f)
-
-        self.top_menu_project.setText(f'{self.active_client} -- {self.active_project}')
-
-    def set_project(self, project):
+    def set_project(self):
         self.active_project = self.sender().text()
 
         self.history['last_projects'][self.active_client] = self.active_project
