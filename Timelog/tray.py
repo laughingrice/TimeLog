@@ -97,6 +97,9 @@ class TrayProg(QSystemTrayIcon):
         self.top_menu_project.setText(f'{self.active_client} -- {self.active_project}')
 
     def new_client(self):
+        if self.running:
+            self.start_stop()
+
         client, res = QInputDialog.getText(None, 'Add Client', 'Client Name')
         if not res:
             return
@@ -111,6 +114,9 @@ class TrayProg(QSystemTrayIcon):
         c.trigger()
 
     def set_client(self):
+        if self.running:
+            self.start_stop()
+
         client = self.sender().text()
 
         self.active_client = client
@@ -138,6 +144,9 @@ class TrayProg(QSystemTrayIcon):
         self.top_menu_project.setText(f'{self.active_client} -- {self.active_project}')
 
     def new_project(self):
+        if self.running:
+            self.start_stop()
+
         project, res = QInputDialog.getText(None, 'Add Project', 'Project Name')
         if not res:
             return
@@ -152,6 +161,9 @@ class TrayProg(QSystemTrayIcon):
         p.trigger()
 
     def set_project(self):
+        if self.running:
+            self.start_stop()
+
         self.active_project = self.sender().text()
 
         self.history['last_projects'][self.active_client] = self.active_project

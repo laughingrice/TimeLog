@@ -18,4 +18,4 @@ Tested on OsX, should work the same on linux, probably Windows, although storage
 * Configurable program directory
 * Package as mac app
 * Add support for attaching a comment
-* Check if running on project change to log time and restart timer
+* Replace icon - handle dark and light theme?
