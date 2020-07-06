@@ -19,7 +19,7 @@ class TrayProg(QSystemTrayIcon):
         self.active_project = None
         self.start_time = None
         self.timer = QTimer()
-        self.timer.timeout.connect(self.TimerTick)
+        self.timer.timeout.connect(self.__timer_tick)
 
         self.history_file = str(app_path / "history.yaml")
         if os.path.exists(self.history_file):
@@ -201,6 +201,6 @@ class TrayProg(QSystemTrayIcon):
 
             self.start_time = None
 
-    def TimerTick(self):
+    def __timer_tick(self):
         duration = datetime.now() - self.start_time
         self.top_menu_time.setText(f"Time: {str(duration).split('.')[0]}")
