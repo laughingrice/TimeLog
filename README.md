@@ -14,7 +14,6 @@ Tested on OsX, should work the same on linux, probably Windows, although storage
 
 ## TODO:
 
-* Switch to module / App setup
 * Add distutil/setup.py
 * Configurable program directory
 * Package as mac app

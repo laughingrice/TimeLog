@@ -1,7 +1,7 @@
 import yaml
 import os
 
-from config import app_path
+from TimeLog.config import app_path
 
 
 class TimeManager:

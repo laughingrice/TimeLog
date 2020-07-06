@@ -6,8 +6,8 @@ from datetime import datetime
 import yaml
 import os
 
-from config import app_path
-import resource
+from TimeLog.config import app_path
+import TimeLog.resource
 
 class TrayProg(QSystemTrayIcon):
     def __init__(self, time_manager):
