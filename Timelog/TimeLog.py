@@ -16,5 +16,7 @@ def main():
 
     time_manager = TimeManager()
     trayprog = TrayProg(time_manager)
+    trayprog.setToolTip('TimeLog')
+    trayprog.show()
 
     app.exec()
