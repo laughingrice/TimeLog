@@ -14,7 +14,5 @@ Tested on OsX, should work the same on linux, probably Windows, although storage
 
 ## TODO:
 
-* Add distutil/setup.py
 * Configurable program directory
-* Package as mac app
 * Replace icon - handle dark and light theme?
