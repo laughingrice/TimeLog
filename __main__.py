@@ -1,7 +1,7 @@
 import sys
 
-from TimeLog.TimeLog import TimeLog
+from TimeLog.TimeLog import main
 
 
-# Run the app
-TimeLog(sys.argv)
+if __name__ == '__main__':
+    sys.exit(main())
