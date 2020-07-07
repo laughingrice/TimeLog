@@ -6,3 +6,18 @@ Stores time logs in a csv file in ~/.local/share/TimeLog (configurable via confi
 
 Tested on OsX, should work the same on linux, probably Windows, although storage path may need to be reconfigured.
 
+## Changelog
+
+### V0.1
+
+* Initial release
+
+### V0.2
+
+* Changed default directory to ~/Documents/TimeLog
+* Added template app skeleton
+* Added support for project notes
+
+## TODO:
+
+
