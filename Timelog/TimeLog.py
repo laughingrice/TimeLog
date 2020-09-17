@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtGui import QIcon
+from PySide2.QtWidgets import QApplication
+from PySide2.QtGui import QIcon
 
 import sys
 
@@ -19,4 +19,4 @@ def main():
     trayprog.setToolTip('TimeLog')
     trayprog.show()
 
-    app.exec()
+    app.exec_()
