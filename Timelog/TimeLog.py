@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtGui import QIcon
+from PySide2.QtWidgets import QApplication
+from PySide2.QtGui import QIcon
 
 import sys
 
@@ -16,5 +16,7 @@ def main():
 
     time_manager = TimeManager()
     trayprog = TrayProg(time_manager)
+    trayprog.setToolTip('TimeLog')
+    trayprog.show()
 
-    app.exec()
+    app.exec_()

@@ -47,4 +47,4 @@ class TimeManager:
 
     def add_time_entry(self, client, project, start_time, end_time, duration, note):
         with open(self.time_file, 'at') as f:
-            f.write(f'{client},{project},{start_time},{end_time},{duration},{note}\n')
+            f.write(f'{client},{project},{start_time.strftime("%Y-%m-%d %H:%M:%S")},{end_time.strftime("%Y-%m-%d %H:%M:%S")},{duration:.0f},{note}\n')
